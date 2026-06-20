@@ -1,0 +1,44 @@
+# Git
+.git
+.gitignore
+
+# Model weights (mounted as volume at runtime, not baked into image)
+best/
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# Output files
+sg_output/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# CI/CD (not needed in image)
+.github/
+
+# Docs
+*.md
+LICENSE

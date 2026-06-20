@@ -1,0 +1,12 @@
+# Surgical Guardian v4 — Python Dependencies
+# Pin exact versions for reproducibility
+
+# Core ML/CV dependencies
+ultralytics==8.3.0
+opencv-python==4.10.0.84
+numpy==1.26.4
+
+# Audio (platform-specific — install conditionally)
+# Windows: winsound is built-in
+# Linux: apt install sox or python3-pygame
+# pygame==2.5.2  # alternative audio on headless Linux

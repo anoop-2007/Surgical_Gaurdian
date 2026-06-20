@@ -1,0 +1,59 @@
+# ============================================================
+# Surgical Guardian v4 — Docker Compose (Local Deployment)
+# ============================================================
+# Usage:
+#   docker compose up --build          # build + run (DroidCam default)
+#   SOURCE=0 docker compose up         # use webcam index 0
+#   SOURCE=path/to/video.mp4 docker compose up   # use video file
+#   NO_RECORD=1 docker compose up      # disable video recording
+#
+# Prerequisites:
+#   - Place your model weights at ./best/best.pt
+#   - For GPU: install nvidia-container-toolkit
+# ============================================================
+
+services:
+  surgical-guardian:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: surgical-guardian:latest
+    container_name: surgical-guardian
+
+    # ── GPU support (optional) ──────────────────────────────
+    # Remove the 'deploy' block entirely if you have no GPU.
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+    # ── Environment variables ───────────────────────────────
+    environment:
+      - SOURCE=${SOURCE:-http://100.91.39.55:4747/video}
+      - MODEL=${MODEL:-/app/best/best.pt}
+      - CONF=${CONF:-0.30}
+      - NO_RECORD=${NO_RECORD:-}
+      - NO_LOG=${NO_LOG:-}
+      - DISPLAY=:99
+      - PYTHONUNBUFFERED=1
+      - NVIDIA_VISIBLE_DEVICES=all
+
+    # ── Volume mounts ───────────────────────────────────────
+    volumes:
+      # Persist output files (recordings, logs, reports, screenshots)
+      - ./sg_output:/app/sg_output
+      # Mount model weights into the container (required)
+      - ./best:/app/best:ro
+
+    # ── Restart policy ──────────────────────────────────────
+    restart: unless-stopped
+
+    # ── Logging ────────────────────────────────────────────
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

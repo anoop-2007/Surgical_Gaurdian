@@ -1,0 +1,37 @@
+# ============================================================
+# Surgical Guardian v4 — .gitignore
+# ============================================================
+
+# Output files (generated at runtime)
+sg_output/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.env.*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Git
+.git/
+
+# Model weights (host separately - too large for git)
+best/
+
+# GitHub Actions (run manually via Docker locally)
+.github/
